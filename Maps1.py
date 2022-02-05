@@ -45,13 +45,13 @@ class Example(QWidget):
 
     def keyPressEvent(self, event):
         key = event.key()
-        if key == Qt.Key_PageUp:
+        if key == Qt.Key_Up:
             if self.spn < 5.0:
                 self.spn += 0.1
                 self.getImage(self.spn)
                 self.pixmap = QPixmap(self.map_file)
                 self.image.setPixmap(self.pixmap)
-        elif key == Qt.Key_PageDown:
+        elif key == Qt.Key_Down:
             if self.spn > 0.1:
                 self.spn -= 0.1
                 self.getImage(self.spn)
