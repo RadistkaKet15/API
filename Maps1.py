@@ -13,12 +13,14 @@ class Example(QWidget):
     def __init__(self):
         super().__init__()
         self.spn = 0.01
-        self.getImage(self.spn)
+        self.coord_x = 37.530887
+        self.coord_y = 55.703118
+        self.getImage(self.spn, self.coord_x, self.coord_y)
         self.initUI()
 
-    def getImage(self, spn):
-        map_request = f"http://static-maps.yandex.ru/1.x/?ll=37.530887," \
-                      f"55.703118&spn={spn},{spn}&l=map"
+    def getImage(self, spn, coord_x, coord_y):
+        map_request = f"http://static-maps.yandex.ru/1.x/?ll={coord_x}," \
+                      f"{coord_y}&spn={spn},{spn}&l=map"
         response = requests.get(map_request)
 
         if not response:
@@ -48,13 +50,37 @@ class Example(QWidget):
         if key == Qt.Key_PageUp:
             if self.spn < 5.0:
                 self.spn += 0.1
-                self.getImage(self.spn)
+                self.getImage(self.spn, self.coord_x, self.coord_y)
                 self.pixmap = QPixmap(self.map_file)
                 self.image.setPixmap(self.pixmap)
         elif key == Qt.Key_PageDown:
             if self.spn > 0.1:
                 self.spn -= 0.1
-                self.getImage(self.spn)
+                self.getImage(self.spn, self.coord_x, self.coord_y)
+                self.pixmap = QPixmap(self.map_file)
+                self.image.setPixmap(self.pixmap)
+        elif key == Qt.Key_Up:
+            if self.coord_y < 84:
+                self.coord_y += 0.1
+                self.getImage(self.spn, self.coord_x, self.coord_y)
+                self.pixmap = QPixmap(self.map_file)
+                self.image.setPixmap(self.pixmap)
+        elif key == Qt.Key_Down:
+            if self.coord_y > -84:
+                self.coord_y -= 0.1
+                self.getImage(self.spn, self.coord_x, self.coord_y)
+                self.pixmap = QPixmap(self.map_file)
+                self.image.setPixmap(self.pixmap)
+        elif key == Qt.Key_Right:
+            if self.coord_x < 179:
+                self.coord_x += 0.1
+                self.getImage(self.spn, self.coord_x, self.coord_y)
+                self.pixmap = QPixmap(self.map_file)
+                self.image.setPixmap(self.pixmap)
+        elif key == Qt.Key_Left:
+            if self.coord_x > -179:
+                self.coord_x -= 0.1
+                self.getImage(self.spn, self.coord_x, self.coord_y)
                 self.pixmap = QPixmap(self.map_file)
                 self.image.setPixmap(self.pixmap)
 
