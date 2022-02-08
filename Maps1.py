@@ -17,6 +17,7 @@ class Example(QWidget):
         self.coord_y = 55.703118
         self.l_map = 'map'
         self.format_map = "png"
+        self.geocode = 'Москва'
         self.getImage(self.spn, self.coord_x, self.coord_y, self.l_map)
         self.initUI()
 
@@ -59,6 +60,30 @@ class Example(QWidget):
         self.hybrid.clicked.connect(self.checked)
         self.hybrid.move(500, 120)
 
+        self.line = QLineEdit(self)
+        self.line.move(20, 20)
+
+        self.find_it = QPushButton('Искать', self)
+        self.find_it.setFocusPolicy(Qt.NoFocus)
+        self.find_it.clicked.connect(self.find_it_func)
+        self.find_it.move(20, 50)
+
+    def find_it_func(self):
+        self.geocode = self.line.text()
+        geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
+        geocoder_params = {
+            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+            "geocode": self.geocode,
+            "format": "json"}
+        response = requests.get(geocoder_api_server, params=geocoder_params)
+        json_response = response.json()
+        toponym = json_response["response"]["GeoObjectCollection"][
+            "featureMember"][0]["GeoObject"]
+        toponym_coodrinates = toponym["Point"]["pos"]
+        self.coord_x = toponym_coodrinates[0]
+        self.coord_y = toponym_coodrinates[1]
+        self.run()
+
     def checked(self):
         signal = self.sender()
         if signal == self.scheme:
@@ -67,11 +92,11 @@ class Example(QWidget):
             self.run()
         elif signal == self.satellite:
             self.l_map = "sat"
-            self.format_map = "jpg"
+            self.format_map = "png"
             self.run()
         elif signal == self.hybrid:
             self.l_map = "sat,skl"
-            self.format_map = "jpg"
+            self.format_map = "png"
             self.run()
 
     def closeEvent(self, event):
