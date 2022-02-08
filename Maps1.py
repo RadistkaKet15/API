@@ -44,14 +44,17 @@ class Example(QWidget):
         self.image.setPixmap(self.pixmap)
 
         self.scheme = QPushButton('Схема', self)
+        self.scheme.setFocusPolicy(Qt.NoFocus)
         self.scheme.clicked.connect(self.checked)
         self.scheme.move(500, 20)
 
         self.satellite = QPushButton('Спутник', self)
+        self.satellite.setFocusPolicy(Qt.NoFocus)
         self.satellite.clicked.connect(self.checked)
         self.satellite.move(500, 70)
 
         self.hybrid = QPushButton('Гибрид', self)
+        self.hybrid.setFocusPolicy(Qt.NoFocus)
         self.hybrid.clicked.connect(self.checked)
         self.hybrid.move(500, 120)
 
