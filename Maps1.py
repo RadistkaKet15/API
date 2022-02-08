@@ -16,6 +16,7 @@ class Example(QWidget):
         self.coord_x = 37.530887
         self.coord_y = 55.703118
         self.l_map = 'map'
+        self.format_map = "png"
         self.getImage(self.spn, self.coord_x, self.coord_y, self.l_map)
         self.initUI()
 
@@ -30,7 +31,7 @@ class Example(QWidget):
             print("Http статус:", response.status_code, "(", response.reason, ")")
             sys.exit(1)
 
-        self.map_file = "map.png"
+        self.map_file = f"map.{self.format_map}"
         with open(self.map_file, "wb") as file:
             file.write(response.content)
 
@@ -62,12 +63,15 @@ class Example(QWidget):
         signal = self.sender()
         if signal == self.scheme:
             self.l_map = "map"
+            self.format_map = "png"
             self.run()
         elif signal == self.satellite:
             self.l_map = "sat"
+            self.format_map = "jpg"
             self.run()
         elif signal == self.hybrid:
             self.l_map = "sat,skl"
+            self.format_map = "jpg"
             self.run()
 
     def closeEvent(self, event):
