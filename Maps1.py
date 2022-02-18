@@ -69,12 +69,22 @@ class Example(QWidget):
 
         self.line = QLineEdit(self)
         self.line.setFocusPolicy(Qt.ClickFocus)
-        self.line.move(20, 20)
+        self.line.move(20, 10)
 
         self.find_it = QPushButton('Искать', self)
         self.find_it.setFocusPolicy(Qt.NoFocus)
         self.find_it.clicked.connect(self.find_it_func)
         self.find_it.move(20, 50)
+
+        self.break_result = QPushButton('Сброс поискового результата', self)
+        self.break_result.setFocusPolicy(Qt.NoFocus)
+        self.break_result.clicked.connect(self.break_result_func)
+        self.break_result.move(20, 80)
+
+    def break_result_func(self):
+        self.geocode_x = 0
+        self.geocode_y = 0
+        self.run()
 
     def mousePressEvent(self, event):
         pass
@@ -161,5 +171,3 @@ if __name__ == '__main__':
     ex = Example()
     ex.show()
     sys.exit(app.exec())
-    
-# Для 6 задачи ничего менять не надо, и до этого всё работало
